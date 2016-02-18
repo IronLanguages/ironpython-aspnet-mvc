@@ -15,7 +15,10 @@ class App(aspnet.Application):
         # Register all routes
         aspnet.Routing.register_all()
 
+        # Set layout
+        aspnet.Views.set_layout('~/Views/Shared/_Layout.cshtml')
+
 class HomeController(aspnet.Controller):
 
     def index(self):
-        return self.view("~/Views/Index.cshtml");
+        return self.view("~/Views/Home/Index.cshtml");

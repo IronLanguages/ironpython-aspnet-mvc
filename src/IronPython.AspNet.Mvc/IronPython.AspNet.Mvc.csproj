@@ -147,6 +147,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Module\Views.cs" />
     <Compile Include="Module\Routing.cs" />
     <Compile Include="Module\Controller.cs" />
     <Compile Include="Module\Application.cs" />

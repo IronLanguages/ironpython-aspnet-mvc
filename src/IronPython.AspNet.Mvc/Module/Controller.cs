@@ -36,6 +36,35 @@ namespace IronPython.AspNet.Mvc
             {
                 return new ControllerActionInvokerWithDefaultJsonResult();
             }
+
+            protected override void OnActionExecuted(ActionExecutedContext filterContext)
+            {
+                base.OnActionExecuted(filterContext);
+
+                var result = filterContext.Result as ViewResult;
+                if (result != null && Views.is_layout_set() && string.IsNullOrWhiteSpace(result.MasterName))
+                {
+                    result.MasterName = Views.layout;
+                }
+            }
+        }
+
+        public class DynamicParameterDescriptor : ParameterDescriptor
+        {
+            public override ActionDescriptor ActionDescriptor
+            {
+                get;
+            }
+
+            public override string ParameterName
+            {
+                get;
+            }
+
+            public override Type ParameterType
+            {
+                get;
+            }
         }
 
         public class DynamicActionDescriptor : ActionDescriptor
@@ -49,7 +78,13 @@ namespace IronPython.AspNet.Mvc
             {
                 this.controllerContext = controllerContext;
                 this.controllerDescriptor = controllerDescriptor;
-                descriptor = new ParameterDescriptor[] { };
+
+                var desc = new DynamicParameterDescriptor();
+
+                descriptor = new ParameterDescriptor[] 
+                {
+                    desc
+                };
                 this.actionName = actionName;
             }
 
@@ -83,43 +118,9 @@ namespace IronPython.AspNet.Mvc
 
         public class ControllerActionInvokerWithDefaultJsonResult : ControllerActionInvoker
         {
-            public const string JsonContentType = "application/json";
-
-            protected override ActionResult CreateActionResult(ControllerContext controllerContext, ActionDescriptor actionDescriptor, object actionReturnValue)
-            {
-                dynamic d = controllerContext.Controller;
-                return d.index();
-            }
-
-            protected override void InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
-            {
-                base.InvokeActionResult(controllerContext, actionResult);
-            }
-
             protected override ActionDescriptor FindAction(ControllerContext controllerContext, ControllerDescriptor controllerDescriptor, string actionName)
             {
                 return new DynamicActionDescriptor(controllerContext, controllerDescriptor, actionName);
-            }
-
-            protected override ActionResult InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary<string, object> parameters)
-            {
-                dynamic d = controllerContext.Controller;
-                return d.index();
-            }
-
-            protected override ControllerDescriptor GetControllerDescriptor(ControllerContext controllerContext)
-            {
-                return base.GetControllerDescriptor(controllerContext);
-            }
-
-            protected override ActionExecutedContext InvokeActionMethodWithFilters(ControllerContext controllerContext, IList<IActionFilter> filters, ActionDescriptor actionDescriptor, IDictionary<string, object> parameters)
-            {
-                return base.InvokeActionMethodWithFilters(controllerContext, filters, actionDescriptor, parameters);
-            }
-
-            protected override ExceptionContext InvokeExceptionFilters(ControllerContext controllerContext, IList<IExceptionFilter> filters, Exception exception)
-            {
-                return base.InvokeExceptionFilters(controllerContext, filters, exception);
             }
         }
     }
