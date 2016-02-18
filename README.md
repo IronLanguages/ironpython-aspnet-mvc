@@ -3,7 +3,7 @@ Bring the world of dynamic coding with IronPython ans ASP.Net MVC together.
 
 # Simple example
 
-```
+```python
 # ------------------------------------------------
 # This is the root of any IronPython based
 # AspNet MVC application.
