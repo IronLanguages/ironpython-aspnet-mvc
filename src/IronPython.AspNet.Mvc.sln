@@ -7,7 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronPython.AspNet.Mvc", "Ir
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{883E64A0-3DEA-4E45-AC01-F0F7C17EA05F}"
 	ProjectSection(SolutionItems) = preProject
+		IronPython.AspNet.Mvc\Views\Shared\_Layout.cshtml = IronPython.AspNet.Mvc\Views\Shared\_Layout.cshtml
+		IronPython.AspNet.Mvc\Views\_ViewStart2.cshtml = IronPython.AspNet.Mvc\Views\_ViewStart2.cshtml
 		IronPython.AspNet.Mvc\app.py = IronPython.AspNet.Mvc\app.py
+		IronPython.AspNet.Mvc\Views\Home\Index.cshtml = IronPython.AspNet.Mvc\Views\Home\Index.cshtml
 	EndProjectSection
 EndProject
 Global

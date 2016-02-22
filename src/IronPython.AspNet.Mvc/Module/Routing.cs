@@ -100,7 +100,7 @@ namespace IronPython.AspNet.Mvc
             {
                 var controller = (IController)MvcApplication.Host.ScriptEngine.Operations.CreateInstance(Routing.controllers.First().Value);
 
-                requestContext.RouteData.Values["controller"] = "Home";
+                requestContext.RouteData.Values["controller"] = controllerName;
                 requestContext.RouteData.Values["action"] = "index";
 
                 return controller;

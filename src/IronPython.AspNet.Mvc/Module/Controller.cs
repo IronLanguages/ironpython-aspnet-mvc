@@ -79,11 +79,11 @@ namespace IronPython.AspNet.Mvc
                 this.controllerContext = controllerContext;
                 this.controllerDescriptor = controllerDescriptor;
 
-                var desc = new DynamicParameterDescriptor();
+                //var desc = new DynamicParameterDescriptor();
 
                 descriptor = new ParameterDescriptor[] 
                 {
-                    desc
+                //    desc
                 };
                 this.actionName = actionName;
             }
