@@ -144,9 +144,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\CustomControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Injections\ActionDescriptor.cs" />
+    <Compile Include="Injections\ControllerActionInvokerWithDefaultJsonResult.cs" />
+    <Compile Include="Injections\DynamicParameterDescriptor.cs" />
     <Compile Include="Module\Views.cs" />
     <Compile Include="Module\Routing.cs" />
     <Compile Include="Module\Controller.cs" />
