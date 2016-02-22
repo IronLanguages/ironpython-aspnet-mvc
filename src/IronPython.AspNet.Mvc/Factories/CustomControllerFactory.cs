@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simplic.Dlr;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,7 +20,13 @@ namespace IronPython.AspNet.Mvc
                 return null;
             }
 
-            var controller = (IController)MvcApplication.Host.ScriptEngine.Operations.CreateInstance(rawCtrl.Value);
+            // Create dlr class
+            var type = (rawCtrl.Value as Runtime.Types.PythonType);
+            var dlrClass = new DlrClass(MvcApplication.Host.DefaultScope, type);
+
+            // Cast to returable controller and set dlr meta class
+            var controller = (AspNetMvcAPI.Controller)dlrClass.Instance;
+            controller.__dlrControllerClass = dlrClass;
 
             requestContext.RouteData.Values["controller"] = controllerName;
 

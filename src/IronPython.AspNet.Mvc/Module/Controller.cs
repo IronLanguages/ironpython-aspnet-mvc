@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Threading;
+using Simplic.Dlr;
 
 namespace IronPython.AspNet.Mvc
 {
@@ -32,6 +33,12 @@ namespace IronPython.AspNet.Mvc
                 return view;
             }
 
+            public object view(CodeContext context, string view_name, object model)
+            {
+                var view = View(view_name, model);
+                return view;
+            }
+
             public object view(CodeContext context)
             {
                 var view = View();
@@ -40,7 +47,7 @@ namespace IronPython.AspNet.Mvc
 
             protected override IActionInvoker CreateActionInvoker()
             {
-                return new ControllerActionInvokerWithDefaultJsonResult();
+                return new DynamicControllerActionInvoker();
             }
 
             protected override void OnActionExecuted(ActionExecutedContext filterContext)
@@ -52,6 +59,15 @@ namespace IronPython.AspNet.Mvc
                 {
                     result.MasterName = Views.layout;
                 }
+            }
+
+            /// <summary>
+            /// Represents the controller class as a Dlr-Class
+            /// </summary>
+            internal DlrClass __dlrControllerClass
+            {
+                get;
+                set;
             }
         }
     }

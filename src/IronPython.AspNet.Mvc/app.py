@@ -21,12 +21,22 @@ class App(aspnet.Application):
 class HomeController(aspnet.Controller):
 
     def index(self):
-        return self.view("~/Views/Home/Index.cshtml");
+        return self.view("~/Views/Home/Index.cshtml")
 
     def page(self):
-        return self.view();
+        # Works also with default paths
+        return self.view()
+
+    def paramSample(self, id):
+        # Works also with default paths
+        model = SampleModel()
+        model.id = id
+        return self.view("~/Views/Home/ParamSample.cshtml", model)
+
+class SampleModel:
+    id = 0
 
 class ProductController(aspnet.Controller):
 
     def index(self):
-        return self.view("~/Views/Product/Index.cshtml");
+        return self.view("~/Views/Product/Index.cshtml")

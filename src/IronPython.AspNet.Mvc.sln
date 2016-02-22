@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Home", "Home", "{D48CBA70-1
 	ProjectSection(SolutionItems) = preProject
 		IronPython.AspNet.Mvc\Views\Home\Index.cshtml = IronPython.AspNet.Mvc\Views\Home\Index.cshtml
 		IronPython.AspNet.Mvc\Views\Home\Page.cshtml = IronPython.AspNet.Mvc\Views\Home\Page.cshtml
+		IronPython.AspNet.Mvc\Views\Home\ParamSample.cshtml = IronPython.AspNet.Mvc\Views\Home\ParamSample.cshtml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Product", "Product", "{2D46D4B0-4504-49EB-A6E3-DC6083B0902D}"
