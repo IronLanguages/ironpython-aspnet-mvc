@@ -98,7 +98,15 @@ namespace IronPython.AspNet.Mvc
         {
             public IController CreateController(System.Web.Routing.RequestContext requestContext, string controllerName)
             {
-                var controller = (IController)MvcApplication.Host.ScriptEngine.Operations.CreateInstance(Routing.controllers.First().Value);
+                var rawCtrl = Routing.controllers.Where(item => item.Key != null)
+                    .FirstOrDefault(item => item.Key.ToString().Replace("Controller", "") == controllerName);
+
+                if (rawCtrl.Key == null)
+                {
+                    return null;
+                }
+
+                var controller = (IController)MvcApplication.Host.ScriptEngine.Operations.CreateInstance(rawCtrl.Value);
 
                 requestContext.RouteData.Values["controller"] = controllerName;
                 requestContext.RouteData.Values["action"] = "index";

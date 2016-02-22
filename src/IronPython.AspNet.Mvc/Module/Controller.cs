@@ -96,6 +96,26 @@ namespace IronPython.AspNet.Mvc
                 }
             }
 
+            public override object[] GetCustomAttributes(bool inherit)
+            {
+                return base.GetCustomAttributes(inherit);
+            }
+
+            public override object[] GetCustomAttributes(Type attributeType, bool inherit)
+            {
+                return base.GetCustomAttributes(attributeType, inherit);
+            }
+
+            public override IEnumerable<FilterAttribute> GetFilterAttributes(bool useCache)
+            {
+                return base.GetFilterAttributes(useCache);
+            }
+
+            public override ICollection<ActionSelector> GetSelectors()
+            {
+                return base.GetSelectors();
+            }
+
             public override ControllerDescriptor ControllerDescriptor
             {
                 get

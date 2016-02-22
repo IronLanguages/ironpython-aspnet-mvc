@@ -7,10 +7,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronPython.AspNet.Mvc", "Ir
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{883E64A0-3DEA-4E45-AC01-F0F7C17EA05F}"
 	ProjectSection(SolutionItems) = preProject
-		IronPython.AspNet.Mvc\Views\Shared\_Layout.cshtml = IronPython.AspNet.Mvc\Views\Shared\_Layout.cshtml
-		IronPython.AspNet.Mvc\Views\_ViewStart2.cshtml = IronPython.AspNet.Mvc\Views\_ViewStart2.cshtml
 		IronPython.AspNet.Mvc\app.py = IronPython.AspNet.Mvc\app.py
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Views", "Views", "{6047B6B0-BFD1-4A2D-851C-10101DF6FC40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{18595811-0EF7-42E0-B3A4-B46A4131CA2A}"
+	ProjectSection(SolutionItems) = preProject
+		IronPython.AspNet.Mvc\Views\Shared\_Layout.cshtml = IronPython.AspNet.Mvc\Views\Shared\_Layout.cshtml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Home", "Home", "{D48CBA70-1265-432C-B65D-94F1E08A1A66}"
+	ProjectSection(SolutionItems) = preProject
 		IronPython.AspNet.Mvc\Views\Home\Index.cshtml = IronPython.AspNet.Mvc\Views\Home\Index.cshtml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Product", "Product", "{2D46D4B0-4504-49EB-A6E3-DC6083B0902D}"
+	ProjectSection(SolutionItems) = preProject
+		IronPython.AspNet.Mvc\Views\Product\Index.cshtml = IronPython.AspNet.Mvc\Views\Product\Index.cshtml
 	EndProjectSection
 EndProject
 Global
@@ -26,5 +40,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6047B6B0-BFD1-4A2D-851C-10101DF6FC40} = {883E64A0-3DEA-4E45-AC01-F0F7C17EA05F}
+		{18595811-0EF7-42E0-B3A4-B46A4131CA2A} = {6047B6B0-BFD1-4A2D-851C-10101DF6FC40}
+		{D48CBA70-1265-432C-B65D-94F1E08A1A66} = {6047B6B0-BFD1-4A2D-851C-10101DF6FC40}
+		{2D46D4B0-4504-49EB-A6E3-DC6083B0902D} = {6047B6B0-BFD1-4A2D-851C-10101DF6FC40}
 	EndGlobalSection
 EndGlobal

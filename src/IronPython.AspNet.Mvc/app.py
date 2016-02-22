@@ -22,3 +22,8 @@ class HomeController(aspnet.Controller):
 
     def index(self):
         return self.view("~/Views/Home/Index.cshtml");
+
+class ProductController(aspnet.Controller):
+
+    def index(self):
+        return self.view("~/Views/Product/Index.cshtml");
