@@ -6,6 +6,9 @@ using System.Web.Mvc;
 
 namespace IronPython.AspNet.Mvc
 {
+    /// <summary>
+    /// Create dynamic action invoker and resolve action-names
+    /// </summary>
     public class DynamicControllerActionInvoker : ControllerActionInvoker
     {
         /// <summary>

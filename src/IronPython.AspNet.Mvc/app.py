@@ -27,14 +27,16 @@ class HomeController(aspnet.Controller):
         # Works also with default paths
         return self.view()
 
-    def paramSample(self, id):
+    def paramSample(self, id, id2 = 'default-value for id2'):
         # Works also with default paths
         model = SampleModel()
         model.id = id
+        model.id2 = id2
         return self.view("~/Views/Home/ParamSample.cshtml", model)
 
 class SampleModel:
     id = 0
+    id2 = ''
 
 class ProductController(aspnet.Controller):
 

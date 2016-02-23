@@ -11,7 +11,7 @@ using Simplic.Dlr;
 namespace IronPython.AspNet.Mvc
 {
     /// <summary>
-    /// Python soloplan api
+    /// Python aspnet api
     /// </summary>
     public static partial class AspNetMvcAPI
     {
@@ -27,6 +27,7 @@ namespace IronPython.AspNet.Mvc
             /// </summary>
             public const string __doc__ = "Module which represents the main asp.net mvc ironpython application";
 
+            #region [View Methods]
             public object view(CodeContext context, string view_name)
             {
                 var view = View(view_name);
@@ -44,12 +45,24 @@ namespace IronPython.AspNet.Mvc
                 var view = View();
                 return view;
             }
+            #endregion
 
+            #region [CreateActionInvoker]
+            /// <summary>
+            /// Create invoker which can resolver IronPython actions
+            /// </summary>
+            /// <returns>New invoker instance</returns>
             protected override IActionInvoker CreateActionInvoker()
             {
                 return new DynamicControllerActionInvoker();
             }
+            #endregion
 
+            #region [OnActionExecuted]
+            /// <summary>
+            /// Handle executed actions and set layout and other stuff
+            /// </summary>
+            /// <param name="filterContext"></param>
             protected override void OnActionExecuted(ActionExecutedContext filterContext)
             {
                 base.OnActionExecuted(filterContext);
@@ -60,6 +73,7 @@ namespace IronPython.AspNet.Mvc
                     result.MasterName = Views.layout;
                 }
             }
+            #endregion
 
             /// <summary>
             /// Represents the controller class as a Dlr-Class

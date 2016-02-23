@@ -12,7 +12,7 @@ using System.Web.SessionState;
 namespace IronPython.AspNet.Mvc
 {
     /// <summary>
-    /// Python soloplan api
+    /// Python asp.net mvc api
     /// </summary>
     public static partial class AspNetMvcAPI
     {

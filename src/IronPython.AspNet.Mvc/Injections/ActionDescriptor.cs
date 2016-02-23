@@ -6,13 +6,25 @@ using System.Web.Mvc;
 
 namespace IronPython.AspNet.Mvc
 {
+    /// <summary>
+    /// Action descriptor for invoking IronPython actions inside of IronPyton controller
+    /// </summary>
     public class DynamicActionDescriptor : ActionDescriptor
     {
+        #region Private Member
         private ControllerContext controllerContext;
         private ControllerDescriptor controllerDescriptor;
         private ParameterDescriptor[] descriptor;
         private string actionName;
+        private IronPython.Runtime.Method methodInfo;
+        #endregion
 
+        /// <summary>
+        /// Create AcrtionDescription for the created action
+        /// </summary>
+        /// <param name="controllerContext"></param>
+        /// <param name="controllerDescriptor"></param>
+        /// <param name="actionName">Name of the action, must not be the action from url</param>
         public DynamicActionDescriptor(ControllerContext controllerContext, ControllerDescriptor controllerDescriptor, string actionName)
         {
             // Set base information
@@ -21,42 +33,41 @@ namespace IronPython.AspNet.Mvc
             this.actionName = actionName;
 
             // Get all required method information
-            IronPython.Runtime.Method methodInfo = MvcApplication.Host.ScriptEngine.Operations.GetMember
+            methodInfo = MvcApplication.Host.ScriptEngine.Operations.GetMember
                 (controllerContext.Controller, actionName) as IronPython.Runtime.Method;
 
             // Get parameter information
             var __func__ = methodInfo.__func__ as Runtime.PythonFunction;
-            var varnames = __func__.func_code.co_varnames;
+            var paramNames = __func__.func_code.co_varnames;
             var paramCount = __func__.func_code.co_argcount - 1;
-            
+            var paramDefaults = __func__.func_defaults;
+
             // Create parameter descriptions
             var tempDescriptor = new List<ParameterDescriptor>();
             for (int i = 1; i <= paramCount; i++)
             {
+                object defaultValue = null;
+
+                if (paramDefaults != null)
+                {
+                    if (i > (paramCount - paramDefaults.Count))
+                    {
+                        defaultValue = paramDefaults[i - paramCount - paramDefaults.Count];
+                    }
+                }
+
                 DynamicParameterDescriptor desc = new DynamicParameterDescriptor
                     (
                         this,
-                        varnames[i].ToString(),
-                        typeof(object)
+                        paramNames[i].ToString(),
+                        defaultValue != null ? defaultValue.GetType() : typeof(object),
+                        defaultValue
                     );
 
                 tempDescriptor.Add(desc);
             }
             descriptor = tempDescriptor.ToArray();
         }
-
-        #region [ActionName]
-        /// <summary>
-        /// Getter for the action name
-        /// </summary>
-        public override string ActionName
-        {
-            get
-            {
-                return actionName;
-            }
-        }
-        #endregion
 
         public override object[] GetCustomAttributes(bool inherit)
         {
@@ -106,9 +117,28 @@ namespace IronPython.AspNet.Mvc
             }
         }
 
+        #region [GetParameters]
+        /// <summary>
+        /// Get a list of all available parameter
+        /// </summary>
+        /// <returns>Parameter list</returns>
         public override ParameterDescriptor[] GetParameters()
         {
             return descriptor;
         }
+        #endregion
+
+        #region [ActionName]
+        /// <summary>
+        /// Getter for the action name
+        /// </summary>
+        public override string ActionName
+        {
+            get
+            {
+                return actionName;
+            }
+        }
+        #endregion
     }
 }

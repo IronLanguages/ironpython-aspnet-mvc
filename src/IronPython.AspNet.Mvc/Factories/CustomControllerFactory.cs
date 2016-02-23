@@ -8,8 +8,18 @@ using System.Web.SessionState;
 
 namespace IronPython.AspNet.Mvc
 {
+    /// <summary>
+    /// Factory for creating IronPython based controller
+    /// </summary>
     public class CustomControllerFactory : IControllerFactory
     {
+        #region [CreateController]
+        /// <summary>
+        /// Create an instance of an IronPython controller
+        /// </summary>
+        /// <param name="requestContext">Request containing information</param>
+        /// <param name="controllerName">Name of the controller to create</param>
+        /// <returns>Instance of a controller if found, else null</returns>
         public IController CreateController(System.Web.Routing.RequestContext requestContext, string controllerName)
         {
             var rawCtrl = AspNetMvcAPI.Routing.controllers.Where(item => item.Key != null)
@@ -32,13 +42,27 @@ namespace IronPython.AspNet.Mvc
 
             return controller;
         }
+        #endregion
 
+        #region [GetControllerSessionBehavior]
+        /// <summary>
+        /// Session behaviour
+        /// </summary>
+        /// <param name="requestContext"></param>
+        /// <param name="controllerName"></param>
+        /// <returns></returns>
         public System.Web.SessionState.SessionStateBehavior GetControllerSessionBehavior(
            System.Web.Routing.RequestContext requestContext, string controllerName)
         {
             return SessionStateBehavior.Default;
         }
+        #endregion
 
+        #region [ReleaseController]
+        /// <summary>
+        /// Release the created controller
+        /// </summary>
+        /// <param name="controller">Controller instance</param>
         public void ReleaseController(IController controller)
         {
             IDisposable disposable = controller as IDisposable;
@@ -47,5 +71,6 @@ namespace IronPython.AspNet.Mvc
                 disposable.Dispose();
             }
         }
+        #endregion
     }
 }
