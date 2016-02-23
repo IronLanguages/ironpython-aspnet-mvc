@@ -29,6 +29,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Product", "Product", "{2D46
 		IronPython.AspNet.Mvc\Views\Product\Index.cshtml = IronPython.AspNet.Mvc\Views\Product\Index.cshtml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{2D2B4471-ED56-49F6-B32C-DC2E648744B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{E1E05320-BFC2-4826-9C91-28501B6A12E9}"
+	ProjectSection(SolutionItems) = preProject
+		IronPython.AspNet.Mvc\Content\css\all.css = IronPython.AspNet.Mvc\Content\css\all.css
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +55,7 @@ Global
 		{18595811-0EF7-42E0-B3A4-B46A4131CA2A} = {6047B6B0-BFD1-4A2D-851C-10101DF6FC40}
 		{D48CBA70-1265-432C-B65D-94F1E08A1A66} = {6047B6B0-BFD1-4A2D-851C-10101DF6FC40}
 		{2D46D4B0-4504-49EB-A6E3-DC6083B0902D} = {6047B6B0-BFD1-4A2D-851C-10101DF6FC40}
+		{2D2B4471-ED56-49F6-B32C-DC2E648744B5} = {883E64A0-3DEA-4E45-AC01-F0F7C17EA05F}
+		{E1E05320-BFC2-4826-9C91-28501B6A12E9} = {2D2B4471-ED56-49F6-B32C-DC2E648744B5}
 	EndGlobalSection
 EndGlobal

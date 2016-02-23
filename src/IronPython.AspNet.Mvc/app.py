@@ -18,6 +18,12 @@ class App(aspnet.Application):
         # Set layout
         aspnet.Views.set_layout('~/Views/Shared/_Layout.cshtml')
 
+        # Load style bundle
+        bundle = aspnet.StyleBundle('~/Content/css')
+        bundle.include("~/Content/css/all.css")
+
+        aspnet.Bundles.add(bundle)
+
 class HomeController(aspnet.Controller):
 
     def index(self):

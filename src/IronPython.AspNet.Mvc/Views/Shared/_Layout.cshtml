@@ -1,9 +1,11 @@
 @inherits System.Web.Mvc.WebViewPage
+@using System.Web.Optimization
 
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <title>IronPython AspNet mvc</title>
+    @Styles.Render("~/Content/css")
 </head>
 <body>
     @RenderBody()

@@ -154,6 +154,7 @@
     <Compile Include="Injections\DynamicControllerActionInvoker.cs" />
     <Compile Include="Injections\DynamicParameterDescriptor.cs" />
     <Compile Include="Module\Filter.cs" />
+    <Compile Include="Module\Bundles\Bundles.cs" />
     <Compile Include="Module\Views.cs" />
     <Compile Include="Module\Routing.cs" />
     <Compile Include="Module\Controller.cs" />
