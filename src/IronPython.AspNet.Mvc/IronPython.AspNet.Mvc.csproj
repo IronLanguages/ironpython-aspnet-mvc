@@ -149,7 +149,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Injections\ActionDescriptor.cs" />
+    <Compile Include="Injections\DynamicActionDescriptor.cs" />
     <Compile Include="Injections\DynamicControllerActionInvoker.cs" />
     <Compile Include="Injections\DynamicParameterDescriptor.cs" />
     <Compile Include="Module\Views.cs" />

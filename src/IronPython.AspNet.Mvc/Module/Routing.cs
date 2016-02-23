@@ -1,8 +1,12 @@
 ﻿using IronPython.Runtime;
+using IronPython.Runtime.Operations;
 using IronPython.Runtime.Types;
+using Microsoft.Scripting;
+using Microsoft.Scripting.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -17,7 +21,7 @@ namespace IronPython.AspNet.Mvc
     public static partial class AspNetMvcAPI
     {
         /// <summary>
-        /// Represents an asp.net mvc IronPython controller
+        /// Handle routing options
         /// </summary>
         [PythonType("Routing")]
         public static class Routing
@@ -28,6 +32,7 @@ namespace IronPython.AspNet.Mvc
             public const string __doc__ = "Module which represents the main asp.net mvc ironpython application";
 
             private static PythonDictionary __controllers;
+            private static IDictionary<PythonFunction, string> __httpMethodFunctionDictionary;
 
             /// <summary>
             /// Create routing system
@@ -35,7 +40,54 @@ namespace IronPython.AspNet.Mvc
             static Routing()
             {
                 __controllers = new PythonDictionary();
+
+                // Add all available methods
+                __httpMethodFunctionDictionary = new Dictionary<PythonFunction, string>();
             }
+
+            #region [Routing Methods (GET/POST/PUT/DELETE)]
+
+            /// <summary>
+            /// Make a method only receive Get requests
+            /// </summary>
+            /// <returns>Rule for checking requests</returns>
+            public static object httpGet(object function)
+            {
+                __httpMethodFunctionDictionary.Add(function as PythonFunction, "GET");
+                return function;
+            }
+
+            /// <summary>
+            /// Make a method only accept Post requests
+            /// </summary>
+            /// <param name="func">Function parameter</param>
+            /// <returns></returns>
+            public static object httpPost(object function)
+            {
+                __httpMethodFunctionDictionary.Add(function as PythonFunction, "POST");
+                return function;
+            }
+
+            /// <summary>
+            /// Make a method only accept Put requests
+            /// </summary>
+            /// <returns></returns>
+            public static object httpPut(object function)
+            {
+                __httpMethodFunctionDictionary.Add(function as PythonFunction, "PUT");
+                return function;
+            }
+
+            /// <summary>
+            /// Make a request only accept delete requests
+            /// </summary>
+            /// <returns></returns>
+            public static object httpDelete(object function)
+            {
+                __httpMethodFunctionDictionary.Add(function as PythonFunction, "DELETE");
+                return function;
+            }
+            #endregion
 
             /// <summary>
             /// Detect and register all available controller in the system
@@ -75,7 +127,7 @@ namespace IronPython.AspNet.Mvc
                     url: "{controller}/{action}/{id}",
                     defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
                 );
-                
+
                 IControllerFactory factory = new CustomControllerFactory();
                 ControllerBuilder.Current.SetControllerFactory(factory);
             }
@@ -88,6 +140,17 @@ namespace IronPython.AspNet.Mvc
                 get
                 {
                     return __controllers;
+                }
+            }
+
+            /// <summary>
+            /// Contains all decorated actions
+            /// </summary>
+            public static IDictionary<PythonFunction, string> httpMethodFunctionDictionary
+            {
+                get
+                {
+                    return __httpMethodFunctionDictionary;
                 }
             }
         }

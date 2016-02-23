@@ -17,7 +17,7 @@ namespace IronPython.AspNet.Mvc
     public static partial class AspNetMvcAPI
     {
         /// <summary>
-        /// 
+        /// Handle view options
         /// </summary>
         [PythonType("Views")]
         public static class Views

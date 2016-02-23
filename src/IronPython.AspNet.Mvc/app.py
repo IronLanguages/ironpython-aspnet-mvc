@@ -20,6 +20,7 @@ class App(aspnet.Application):
 
 class HomeController(aspnet.Controller):
 
+    @aspnet.Routing.httpGet
     def index(self):
         return self.view("~/Views/Home/Index.cshtml")
 
@@ -33,6 +34,10 @@ class HomeController(aspnet.Controller):
         model.id = id
         model.id2 = id2
         return self.view("~/Views/Home/ParamSample.cshtml", model)
+
+    @aspnet.Routing.httpPost
+    def postSample(self):
+        return self.view("~/Views/Home/Index.cshtml")
 
 class SampleModel:
     id = 0

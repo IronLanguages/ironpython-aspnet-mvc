@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IronPython.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -22,11 +23,12 @@ namespace IronPython.AspNet.Mvc
         {
             // Get all members in the controller
             var members = MvcApplication.Host.ScriptEngine.Operations.GetMemberNames(controllerContext.Controller);
+            string resolvedActionName = "";
 
             // If memebrs match, return
             if (members.Contains(actionName))
             {
-                return new DynamicActionDescriptor(controllerContext, controllerDescriptor, actionName);
+                resolvedActionName = actionName;
             }
             else
             {
@@ -35,8 +37,30 @@ namespace IronPython.AspNet.Mvc
                 {
                     if (member.ToLower() == actionName.ToLower())
                     {
-                        return new DynamicActionDescriptor(controllerContext, controllerDescriptor, member);
+                        resolvedActionName = member;
                     }
+                }
+            }
+
+            // If an action was found
+            if (!string.IsNullOrWhiteSpace(resolvedActionName))
+            {
+                // Search for all method of this type
+                var httpMethod = controllerContext.HttpContext.Request.HttpMethod; //GET POST DELETE PUT
+
+                var member = MvcApplication.Host.ScriptEngine.Operations.GetMember(controllerContext.Controller, resolvedActionName);
+                var methodInfo = member as IronPython.Runtime.Method;
+                var pythonFunction = methodInfo.__func__ as PythonFunction;
+
+                if (AspNetMvcAPI.Routing.httpMethodFunctionDictionary.ContainsKey(pythonFunction) 
+                    && AspNetMvcAPI.Routing.httpMethodFunctionDictionary[pythonFunction] == httpMethod)
+                {
+                    return new DynamicActionDescriptor(controllerContext, controllerDescriptor, resolvedActionName, pythonFunction);
+                }
+                else if (httpMethod == "GET"
+                    && !AspNetMvcAPI.Routing.httpMethodFunctionDictionary.ContainsKey(pythonFunction)) // No decorator equals GET-Method
+                {
+                    return new DynamicActionDescriptor(controllerContext, controllerDescriptor, resolvedActionName, pythonFunction);
                 }
             }
 

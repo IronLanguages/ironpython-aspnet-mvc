@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IronPython.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,7 +17,7 @@ namespace IronPython.AspNet.Mvc
         private ControllerDescriptor controllerDescriptor;
         private ParameterDescriptor[] descriptor;
         private string actionName;
-        private IronPython.Runtime.Method methodInfo;
+        private PythonFunction pythonFunction;
         #endregion
 
         /// <summary>
@@ -25,22 +26,18 @@ namespace IronPython.AspNet.Mvc
         /// <param name="controllerContext"></param>
         /// <param name="controllerDescriptor"></param>
         /// <param name="actionName">Name of the action, must not be the action from url</param>
-        public DynamicActionDescriptor(ControllerContext controllerContext, ControllerDescriptor controllerDescriptor, string actionName)
+        /// <param name="pythonFunction">Python function instance</param>
+        public DynamicActionDescriptor(ControllerContext controllerContext, ControllerDescriptor controllerDescriptor, string actionName, PythonFunction pythonFunction)
         {
             // Set base information
             this.controllerContext = controllerContext;
             this.controllerDescriptor = controllerDescriptor;
             this.actionName = actionName;
-
-            // Get all required method information
-            methodInfo = MvcApplication.Host.ScriptEngine.Operations.GetMember
-                (controllerContext.Controller, actionName) as IronPython.Runtime.Method;
-
+            
             // Get parameter information
-            var __func__ = methodInfo.__func__ as Runtime.PythonFunction;
-            var paramNames = __func__.func_code.co_varnames;
-            var paramCount = __func__.func_code.co_argcount - 1;
-            var paramDefaults = __func__.func_defaults;
+            var paramNames = pythonFunction.func_code.co_varnames;
+            var paramCount = pythonFunction.func_code.co_argcount - 1;
+            var paramDefaults = pythonFunction.func_defaults;
 
             // Create parameter descriptions
             var tempDescriptor = new List<ParameterDescriptor>();
