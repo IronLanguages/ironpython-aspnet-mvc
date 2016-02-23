@@ -52,13 +52,19 @@ namespace IronPython.AspNet.Mvc
                 var methodInfo = member as IronPython.Runtime.Method;
                 var pythonFunction = methodInfo.__func__ as PythonFunction;
 
-                if (AspNetMvcAPI.Routing.httpMethodFunctionDictionary.ContainsKey(pythonFunction) 
-                    && AspNetMvcAPI.Routing.httpMethodFunctionDictionary[pythonFunction] == httpMethod)
+                Decorator.ActionDecorator dec = null;
+                if (AspNetMvcAPI.Filter.actionDecorators.TryGetValue(pythonFunction, out dec))
                 {
-                    return new DynamicActionDescriptor(controllerContext, controllerDescriptor, resolvedActionName, pythonFunction);
+                    if (string.IsNullOrWhiteSpace(dec.httpMethod) && httpMethod == "GET")
+                    {
+                        return new DynamicActionDescriptor(controllerContext, controllerDescriptor, resolvedActionName, pythonFunction);
+                    }
+                    else if (dec.httpMethod == httpMethod)
+                    {
+                        return new DynamicActionDescriptor(controllerContext, controllerDescriptor, resolvedActionName, pythonFunction);
+                    }
                 }
-                else if (httpMethod == "GET"
-                    && !AspNetMvcAPI.Routing.httpMethodFunctionDictionary.ContainsKey(pythonFunction)) // No decorator equals GET-Method
+                else if (httpMethod == "GET")
                 {
                     return new DynamicActionDescriptor(controllerContext, controllerDescriptor, resolvedActionName, pythonFunction);
                 }
