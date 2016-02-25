@@ -1,7 +1,17 @@
-# ironpython-aspnet-mvc
-Bring the world of dynamic coding with IronPython ans ASP.Net MVC together.
+# IronPython-AspNet-Mvc
+Create AspNet MVC based websites and applications with IronPython to combine the power of the .Net Framework and Python.
 
-# Simple example
+The following things are currently supported:
+
+1. Application Startup
+2. Creating controller and actions
+3. Using different layout techniques
+4. Use bundles for embedding Script and Styles
+5. Use method decorators for routing and http-method filter
+6. Base implementation of the filter system
+
+## Simple example
+This example shows some very basic usage. It creates an application and one `Home` controller which will be registered automatically.
 
 ```python
 # ------------------------------------------------
@@ -27,6 +37,32 @@ class App(aspnet.Application):
 class HomeController(aspnet.Controller):
 
     def index(self):
-        return self.view("~/Views/Home/Index.cshtml");
+        return self.view("~/Views/Home/Index.cshtml")
 
+```
+
+## Creating a controller
+
+For creating a controller, just let your class derive from `aspnet.Controller`:
+
+```
+class ProductController(aspnet.Controller):
+    
+    # Index endpoint which is available over: http://yoursite.com/product/index
+    def index(self):
+        return self.view()
+```
+
+All controller can be automatically registered using: `aspnet.Routing.register_all()` on application startup.
+
+## Making a action accepts only post
+
+To make an action only accept post request, just use the `httpPost` decorator:
+
+```
+class ProductController(aspnet.Controller):
+    
+    @aspnet.Filter.httpPost
+    def add(self, model):
+        # ....
 ```
